@@ -84,4 +84,10 @@ int main() {
 
 ## 申論及開發報告
 
-使用 adjacency list 可有效節省空間，特別適用於稀疏圖，相較於 adjacency matrix 更具彈性。
+## 資料結構選型與優勢分析
+在實作 Graph ADT 時，最常見的兩種方式是 Adjacency Matrix（鄰接矩陣） 與 Adjacency List（鄰接表）。
+本程式選擇後者，主要考量如下：
+
+空間效率： 對於頂點數 $V$ 很多但邊數 $E$ 較少的「稀疏圖（Sparse Graph）」，鄰接矩陣會浪費 $O(V^2)$ 的空間來儲存大量的 0；而鄰接表僅需 $O(V + E)$，能大幅節省記憶體。
+
+動態擴展性： 使用 std::vector 實作，可以方便地處理每個頂點連接數不一的情況，且在 C++ 中 vector 的記憶體連續性對快取（Cache）也較為友善。
