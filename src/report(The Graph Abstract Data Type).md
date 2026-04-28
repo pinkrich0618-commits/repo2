@@ -61,7 +61,7 @@ $O(V + E)$
 
 ## 測試與驗證
 
-## 測試程式
+測試程式
 ```cpp
 #include "graph_adt.h"
 
