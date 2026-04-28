@@ -1,6 +1,6 @@
 # 41343106
 
-作業二：Graph Algorithms
+作業二：The Graph Abstract Data Type
 
 
 ## 解題說明
