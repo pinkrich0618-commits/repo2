@@ -72,15 +72,28 @@ public:
 
 測試程式
 ```cpp
-#include "Shortest Paths and Transitive Closure.h"
+void dijkstra(int start) {
+        vector<int> dist(V, INT_MAX);
+        dist[start] = 0;
 
-int main() {
-    ShortestPath g(3);
-    g.addEdge(0,1,1);
-    g.addEdge(1,2,2);
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+        pq.push({0, start});
 
-    g.dijkstra(0);
-}
+        while (!pq.empty()) {
+            auto [d, u] = pq.top(); pq.pop();
+
+            // 效能優化：若當前彈出的距離已非最優，則跳過處理
+            if (d > dist[u]) continue;
+
+            for (auto [v, w] : adj[u]) {
+                if (dist[v] > dist[u] + w) {
+                    dist[v] = dist[u] + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+        // ...其餘列印邏輯...
+    }
 ```
 
 ## 測試結果
@@ -88,4 +101,22 @@ int main() {
 
 ## 申論及開發報告
 
-Dijkstra 適用於非負權重圖，廣泛應用於導航與網路路徑規劃。
+### 1. 演算法設計與貪婪策略
+
+Dijkstra 演算法是處理單源最短路徑 (SSSP) 的標竿演算法，其核心思想基於貪婪策略 (Greedy Approach)：
+
+最佳子結構：每次從優先隊列中取出距離起點最近的節點，並假設該路徑已是最短。
+
+鬆弛操作 (Relaxation)： 透過新加入的節點嘗試更新其鄰居的距離。若經由目前節點 $u$ 到達 $v$ 的路徑比已知路徑短，則更新 $dist[v]$。
+
+### 2. 優先隊列 (Priority Queue) 的關鍵角色
+
+在實作中，使用 std::priority_queue 搭配 greater<> 實作了 Min-Priority Queue：
+
+相較於傳統使用 $O(V)$ 遍歷尋找最小距離頂點的方法，優先隊列將選取最小節點的時間降低至 $O(\log V)$。
+
+這使得演算法在處理如城市地圖、網路路由等具有大量邊的圖形時，能保持 $O(E \log V)$ 的高效能表現。
+### 3. 限制條件與 Transitive Closure 的關聯
+負權邊限制： Dijkstra 無法處理具有「負權邊」的圖。若圖中存在負權，應改用 Bellman-Ford 或 SPFA 演算法。
+
+Transitive Closure (遞移閉包)： 本題標題提及遞移閉包。雖然 Dijkstra 處理權重路徑，但遞移閉包關注的是「節點間的可達性」。若要計算遞移閉包，通常使用 Floyd-Warshall 演算法（時間複雜度 $O(V^3)$），或對每個節點執行一次 BFS/DFS。在加權圖中，若兩點間存在最短路徑且距離不為 INT_MAX，則代表這兩點在遞移閉包中是連通的。
