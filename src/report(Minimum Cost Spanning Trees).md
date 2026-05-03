@@ -94,20 +94,32 @@ Union-Find 的操作（路徑壓縮）接近常數時間 $\alpha(V)$。
 
 測試程式
 ```cpp
-#include "Minimum Cost Spanning Trees.h"
+##include "Minimum Cost Spanning Trees.h"
+#include <iostream>
+
+using namespace std;
 
 int main() {
+    // 建立一個包含 3 個頂點的圖
     MST g(3);
-    g.addEdge(0,1,1);
-    g.addEdge(1,2,2);
-    g.addEdge(0,2,3);
+    
+    // 加入三條邊，形成一個三角形迴路
+    g.addEdge(0, 1, 1); // 邊 0-1, 權重 1
+    g.addEdge(1, 2, 2); // 邊 1-2, 權重 2
+    g.addEdge(0, 2, 3); // 邊 0-2, 權重 3 (此邊應被跳過)
 
+    cout << "--- Running Kruskal's Algorithm ---" << endl;
     g.kruskal();
+
+    return 0;
 }
 ```
 
 ## 測試結果
-MST cost: 6
+Edges in MST:
+0 - 1 : 1
+1 - 2 : 2
+Total MST cost: 3
 
 ## 申論及開發報告
 ### 1. 演算法核心策略：貪婪思維
