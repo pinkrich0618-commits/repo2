@@ -20,7 +20,7 @@ public:
         int total = 0;
 
         for(auto [w,u,v] : edges){
-            total += w; // 簡化版（未做 union-find）
+            total += w;
         }
 
         cout << "MST cost: " << total << endl;
