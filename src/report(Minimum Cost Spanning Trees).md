@@ -117,8 +117,11 @@ int main() {
 
 ## 測試結果
 Edges in MST:
+
 0 - 1 : 1
+
 1 - 2 : 2
+
 Total MST cost: 3
 
 ## 申論及開發報告
